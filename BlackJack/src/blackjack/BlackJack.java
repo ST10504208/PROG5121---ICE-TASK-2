@@ -8,14 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BlackJack implements ActionListener {
 
-    BlackJack(){
+    ArrayList<Card> deck;
+
+    BlackJack() {
         gameStart();
     }
-    
-    
+
     public static JFrame windowConfig() {
 
         JFrame display = new JFrame();                          // JFrame Object 
@@ -70,18 +72,13 @@ public class BlackJack implements ActionListener {
         BlackJack game = new BlackJack();
         game.buttonConfig(display);
         display.setVisible(true);
-       
-        // Visualizes the window (Makes it visable) 
 
+        // Visualizes the window (Makes it visable) 
         // Create two buttons Hit and Stand
         // Connect the Array data to the card data and graphics
         // Add shuffle feature for the deck of cards
     }
-    ArrayList<Card> deck;
-    
 
-    
-    
     public class Card {
 
         String value;
@@ -92,9 +89,9 @@ public class BlackJack implements ActionListener {
             this.type = type;
         }
 
-       public String toString(){
-       return value + "-" + type; 
-    }
+        public String toString() {
+            return value + "-" + type;
+        }
     }
 
     public void buildDeck() {
@@ -111,13 +108,26 @@ public class BlackJack implements ActionListener {
 
         System.out.println("BUILD DECK:");
         System.out.println(deck);
-        
+
     }
 
-    public void gameStart(){
-    
-    buildDeck();
-}
-    
-    
+    public void ShuffleDeck() {
+        Card ChoseCard = deck.get(randomNum());
+        System.out.println(ChoseCard);
+    }
+
+    public int randomNum() {
+        int min = 0;
+        int max = 13;
+        Random random = new Random();
+        int intShuffledDeck = random.nextInt((max - min) + 1) + min;
+        return (intShuffledDeck);
+    }
+
+    public void gameStart() {
+        buildDeck();
+        ShuffleDeck();
+
+    }
+
 }
