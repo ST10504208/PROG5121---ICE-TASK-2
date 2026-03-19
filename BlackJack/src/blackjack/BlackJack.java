@@ -59,10 +59,10 @@ public class BlackJack implements ActionListener {
         String command = e.getActionCommand();
 
         if (command.equals("hit")) {
-            System.out.println("Hit");
-
+          //  System.out.println("Hit");
+            
         } else if (command.equals("stand")) {
-            System.out.println("Stand");
+          //  System.out.println("Stand");
         }
 
     }
@@ -112,22 +112,31 @@ public class BlackJack implements ActionListener {
     }
 
     public void ShuffleDeck() {
-        Card ChoseCard = deck.get(randomNum());
-        System.out.println(ChoseCard);
+         Random random = new Random();
+        for (int i = 0; i < deck.size(); i++) {
+            int j = random.nextInt(deck.size());
+            Card currCard = deck.get(i);
+            Card randomCard = deck.get(j);
+            deck.set(i, randomCard);
+            deck.set(j, currCard);
+          
+        }
+        System.out.println("Shuffled Deck:");
+        System.out.println(deck);
     }
 
-    public int randomNum() {
-        int min = 0;
-        int max = 13;
-        Random random = new Random();
-        int intShuffledDeck = random.nextInt((max - min) + 1) + min;
-        return (intShuffledDeck);
-    }
 
     public void gameStart() {
         buildDeck();
         ShuffleDeck();
 
     }
+
+    public String UsersHand(){
+      String UsersHand = deck.get(0).toString();     
+      return(UsersHand);
+        
+    }
+
 
 }
