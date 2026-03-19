@@ -3,11 +3,13 @@ package blackjack;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class BlackJack {
+public class BlackJack implements ActionListener {
 
 
 public static JFrame windowConfig(){
@@ -29,26 +31,45 @@ public static JFrame windowConfig(){
     return display;
 }
 
-public static void buttonConfig(JFrame display){
+public void buttonConfig(JFrame display){
     JButton hitButton = new JButton("Hit!");               // Creates button objects
     JButton stayButton = new JButton("Stay");   
     JPanel buttonPanel = new JPanel();                     // Creates JPanel for the Buttons 
  
-    hitButton.setFocusable(true);                          // Allows the button to interact with input
-    hitButton.addActionListener(null);                     // Creates output after button is pressed
+    hitButton.setFocusable(true);
+    hitButton.setActionCommand("hit");                      // Allows the button to interact with input
+    hitButton.addActionListener(this);                     // Creates output after button is pressed
     buttonPanel.add(hitButton);
+    
+    
     stayButton.setFocusable(true);
-    stayButton.addActionListener(null);
+    stayButton.setActionCommand("stand");
+    stayButton.addActionListener(this);
     buttonPanel.add(stayButton);
+    
     
     display.add(buttonPanel , BorderLayout.SOUTH);
 }
+@Override 
+public void actionPerformed(ActionEvent e){
+    String command = e.getActionCommand();
+    
+    if (command.equals("hit")) {
+        System.out.println("Hit");
+    } else if (command.equals("stand")) {
+        System.out.println("Stand");
+    }
+    
+    
+}
+
+
 
     public static void main(String[] args) {
         JFrame display = windowConfig();
-        buttonConfig(display);
+        BlackJack game = new BlackJack();
+        game.buttonConfig(display);
         display.setVisible(true);                          // Visualizes the window (Makes it visable) 
-        
         
         
    // Create two buttons Hit and Stand
@@ -61,5 +82,7 @@ public static void buttonConfig(JFrame display){
 
 
     }
+
+   
     
 }
