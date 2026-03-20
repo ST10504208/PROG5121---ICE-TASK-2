@@ -13,6 +13,10 @@ import java.util.Random;
 public class BlackJack implements ActionListener {
 
     ArrayList<Card> deck;
+    public int indexnum = 4;
+    public boolean hit = false;
+    public int UserAmount = 0;
+    public int DealerAmount = 0;
 
     BlackJack() {
         gameStart();
@@ -59,10 +63,11 @@ public class BlackJack implements ActionListener {
         String command = e.getActionCommand();
 
         if (command.equals("hit")) {
-          //  System.out.println("Hit");
-            
+            //  System.out.println("Hit");
+            hit = true;
+            UsersHandNum();
         } else if (command.equals("stand")) {
-          //  System.out.println("Stand");
+            //  System.out.println("Stand");
         }
 
     }
@@ -112,30 +117,63 @@ public class BlackJack implements ActionListener {
     }
 
     public void ShuffleDeck() {
-         Random random = new Random();
+        Random random = new Random();
         for (int i = 0; i < deck.size(); i++) {
             int j = random.nextInt(deck.size());
             Card currCard = deck.get(i);
             Card randomCard = deck.get(j);
             deck.set(i, randomCard);
             deck.set(j, currCard);
-          
+
         }
         System.out.println("Shuffled Deck:");
         System.out.println(deck);
     }
 
-
     public void gameStart() {
         buildDeck();
         ShuffleDeck();
+        System.out.println("Users hand: " + UsersHand());
+        System.out.println("Dealers hand: " + DealersHand());
+        System.out.println("First 2 nums: " + UsersHandNum());
+    }
+
+    public String UsersHand() {
+
+        String usersHand1 = deck.get(0).toString();
+        String usersHand2 = deck.get(1).toString();
+        String usersHand = usersHand1 + " " + usersHand2;
+        return (usersHand);
 
     }
 
-    public String UsersHand(){
-      String UsersHand = deck.get(0).toString();     
-      return(UsersHand);
-        
+    public String UsersHandNum() {
+        if (hit == false) {
+            String usersHand = UsersHand();
+
+            int spaceindex = usersHand.indexOf(" ");
+
+            String First = usersHand.substring(0, spaceindex - 2);
+
+            String Second = usersHand.substring(spaceindex + 1);
+            Second = Second.substring(0, Second.length() - 2);
+
+            return (First + " " + Second);
+        } else {
+            String hitusershand = deck.get(indexnum).toString();
+            int hyphenindex = hitusershand.indexOf("-");
+            String usersnum = hitusershand.substring(0, hyphenindex);
+            indexnum++;
+            return usersnum;
+        }
+
+    }
+
+    public String DealersHand() {
+        String dealersHand1 = deck.get(2).toString();
+        String dealersHand2 = deck.get(3).toString();
+        String dealersHand = dealersHand1 + " " + dealersHand2;
+        return dealersHand;
     }
 
 
