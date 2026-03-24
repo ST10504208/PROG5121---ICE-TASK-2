@@ -64,21 +64,15 @@ public class BlackJack implements ActionListener {
         String command = e.getActionCommand();
 
         if (command.equals("hit")) {
-            //  System.out.println("Hit");
             hit = true;
             UsersHandNum();
             System.out.println("Users Amount: " + UserAmount);
 
-            /* if (UserAmount > 21) {
-                System.out.println("You lose!");
-                UserAmount = 0;
-                DealerAmount = 0;
-                gameStart();
-            }*/
         } else if (command.equals("stand")) {
             hit = false;
             stand = true;
-            System.out.println(DealersHandNum());
+            DealersHandNum();
+
         }
 
     }
@@ -166,10 +160,11 @@ public class BlackJack implements ActionListener {
             int SecondNum = 0;
             int spaceindex = usersHand.indexOf(" ");                    //finds the space we added to the string ealier in the UsersHand() method
 
-            String First = usersHand.substring(0, spaceindex - 2);      //First number is from 0 - the space minus 2 because of the suit and -
+            String First = usersHand.substring(0, spaceindex);
+            First = First.substring(0, First.indexOf("-"));              //First number is from 0 - the space minus 2 because of the suit and -
 
             String Second = usersHand.substring(spaceindex + 1);        //Second number is from the space adding 1 because of the space itself
-            Second = Second.substring(0, Second.length() - 2);          //Copy from that first character once again minus 2 because of the suit and -
+            Second = Second.substring(0, Second.indexOf("-"));          //Copy from that first character once again minus 2 because of the suit and -
 
             switch (First) {
                 case "K":                                               //Switch case for if the "numbers" are a face card then the value of it is 10
@@ -218,7 +213,7 @@ public class BlackJack implements ActionListener {
                     } else {
                         return UserAmount = UserAmount + 1;
                     }
-                    
+
                 default:
                     UserAmount = UserAmount + Integer.parseInt(usersnum);
                     return UserAmount;
@@ -242,10 +237,11 @@ public class BlackJack implements ActionListener {
             int SecondNum = 0;
             int spaceindex = dealersHand.indexOf(" ");
 
-            String First = dealersHand.substring(0, spaceindex - 2);
+            String First = dealersHand.substring(0, spaceindex);
+            First = First.substring(0, First.indexOf("-"));
 
             String Second = dealersHand.substring(spaceindex + 1);
-            Second = Second.substring(0, Second.length() - 2);
+            Second = Second.substring(0, Second.indexOf("-"));
 
             switch (First) {
                 case "K":
@@ -274,10 +270,10 @@ public class BlackJack implements ActionListener {
 
             }
 
-            int DealersHandNum = FirstNum + SecondNum;
+            int DealerAmount = FirstNum + SecondNum;
 
-            return DealersHandNum;
-        } else if (DealerAmount > 17 && stand == true) {
+            return DealerAmount;
+        } else if (stand == true && DealerAmount >= 17) {
             if (UserAmount < DealerAmount) {
                 System.out.println("You lose!" + '\n' + "The dealer had: " + DealerAmount);
                 return DealerAmount;
@@ -286,17 +282,16 @@ public class BlackJack implements ActionListener {
                 return (DealerAmount);
             }
 
-        } else /*if (DealerAmount < 17 && stand == true) */{
-            
+        } else {
+
             while (DealerAmount < 17) {
-                
                 String hitdealershand = deck.get(indexnum).toString();
-                
+
                 int hyphenindex = hitdealershand.indexOf("-");
                 String dealersnum = hitdealershand.substring(0, hyphenindex);
-              
-                indexnum++;                                                     //Above is using the array and finding the value of the card once again
+                indexnum++;
 
+                                                                                                //Above is using the array and finding the value of the card once again
                 switch (dealersnum) {
                     case "K":
                     case "Q":
@@ -304,7 +299,7 @@ public class BlackJack implements ActionListener {
                         DealerAmount = DealerAmount + 10;
                         break;
                     case "A":
-                        if (DealerAmount + 11 < 21) {                             //If the card pulled is an ace and if adding 11 to the total means the Dealer has above 21 then change the ace value to a 1
+                        if (DealerAmount + 11 < 21) {                                           //If the card pulled is an ace and if adding 11 to the total means the Dealer has above 21 then change the ace value to a 1
                             DealerAmount = DealerAmount + 11;
                         } else {
                             DealerAmount = DealerAmount + 1;
@@ -312,19 +307,16 @@ public class BlackJack implements ActionListener {
                         break;
                     default:
                         DealerAmount = DealerAmount + Integer.parseInt(dealersnum);
-                        
-                        
+
                 }
-               if (DealerAmount >21) {
-                    System.out.println("Dealer bust! You win!" +'\n'+"Dealers amount: "+DealerAmount);
+                if (DealerAmount > 21) {
+                    System.out.println("Dealer bust! You win!" + '\n' + "Dealers amount: " + DealerAmount);
                     break;
-                } 
+                }
             }
             return DealerAmount;
-        } 
+        }
 
-        
-        
     }
 
 }
